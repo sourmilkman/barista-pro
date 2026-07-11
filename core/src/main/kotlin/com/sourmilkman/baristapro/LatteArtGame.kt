@@ -137,7 +137,7 @@ class LatteArtGame : ApplicationAdapter() {
         font.draw(batch, "HOLD TO POUR", 275f, 86f)
         font.color = Color(0.44f, 0.44f, 0.49f, 1f)
         font.data.setScale(.65f)
-        font.draw(batch, "BUILD 0.1.0 • GPT-5 CODEX", 32f, 24f)
+        font.draw(batch, "BUILD 0.1.1 • GPT-5 CODEX", 32f, 24f)
         batch.end()
 
         if (Gdx.input.justTouched()) {
