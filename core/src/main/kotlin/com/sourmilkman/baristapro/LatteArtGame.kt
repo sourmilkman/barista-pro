@@ -140,7 +140,7 @@ class LatteArtGame : ApplicationAdapter() {
         val radius = if (cutThrough) 1.25f else 2.3f + flowRate * 1.35f
         val directionX = cos(flowAngle)
         val directionY = sin(flowAngle)
-        val momentum = if (cutThrough) 128f else 70f * (1f - fill * .52f)
+        val momentum = if (cutThrough) 300f else 220f * (1f - fill * .38f)
         val gx = worldToGridX(pointer.x)
         val gy = worldToGridY(pointer.y)
         val reach = (radius * 2f).toInt() + 1
@@ -156,7 +156,7 @@ class LatteArtGame : ApplicationAdapter() {
                 val index = index(x, y)
                 foam[index] = (foam[index] + weight * flowRate * dt * 2.15f).coerceAtMost(1f)
                 val radialLength = sqrt(distanceSquared).coerceAtLeast(.25f)
-                val radialPressure = if (cutThrough) 5f else 25f * flowRate
+                val radialPressure = if (cutThrough) 6f else 18f * flowRate
                 velocityX[index] += (directionX * momentum + ox / radialLength * radialPressure + movementX * .08f) * weight * dt
                 velocityY[index] += (directionY * momentum + oy / radialLength * radialPressure + movementY * .08f) * weight * dt
             }
@@ -181,7 +181,7 @@ class LatteArtGame : ApplicationAdapter() {
                 val radial = sqrt(nx * nx + ny * ny)
                 val rimT = ((radial - .62f) / .38f).coerceIn(0f, 1f)
                 val rimResistance = rimT * rimT * (3f - 2f * rimT)
-                val damping = (1f - dt * (1.8f + fill * 3.9f + rimResistance * 10.5f)).coerceIn(0f, 1f)
+                val damping = (1f - dt * (.8f + fill * 3.2f + rimResistance * 9.5f)).coerceIn(0f, 1f)
 
                 val left = foam[index((x - 1).coerceAtLeast(0), y)]
                 val right = foam[index((x + 1).coerceAtMost(gridSize - 1), y)]
@@ -261,6 +261,12 @@ class LatteArtGame : ApplicationAdapter() {
         shapes.color = Color(.94f, .79f, .58f, 1f)
         shapes.rectLine(arrowStartX, arrowStartY, arrowEndX, arrowEndY, 7f)
         shapes.circle(arrowStartX, arrowStartY, 8f, 20)
+        val arrowLeftX = arrowEndX - directionX * 16f - directionY * 10f
+        val arrowLeftY = arrowEndY - directionY * 16f + directionX * 10f
+        val arrowRightX = arrowEndX - directionX * 16f + directionY * 10f
+        val arrowRightY = arrowEndY - directionY * 16f - directionX * 10f
+        shapes.rectLine(arrowEndX, arrowEndY, arrowLeftX, arrowLeftY, 6f)
+        shapes.rectLine(arrowEndX, arrowEndY, arrowRightX, arrowRightY, 6f)
 
         if (touchMode == TouchMode.POUR) {
             shapes.color = if (cutThrough) Color(.95f, .42f, .28f, 1f) else Color.WHITE
@@ -291,7 +297,7 @@ class LatteArtGame : ApplicationAdapter() {
         font.draw(batch, "RESET CUP", 177f, 70f)
         font.color = Color(.43f, .43f, .48f, 1f)
         font.data.setScale(.64f)
-        font.draw(batch, "BUILD 0.2.0 • GPT-5 CODEX", 28f, 18f)
+        font.draw(batch, "BUILD 0.2.1 • GPT-5 CODEX", 28f, 18f)
         batch.end()
     }
 
