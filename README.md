@@ -13,3 +13,7 @@ Portrait Android/LibGDX prototype for testing a simplified latte-art pour.
 The surface uses a lightweight 2D foam-and-velocity grid. Momentum decays as the cup fills, and resistance increases towards the rim.
 
 Open the project in Android Studio, allow Gradle sync to finish, then run the `android` configuration on an emulator or Android device.
+
+## APK
+
+The current test build is available at [`releases/barista-pro-0.2.0-debug.apk`](releases/barista-pro-0.2.0-debug.apk).
