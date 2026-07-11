@@ -151,7 +151,14 @@ class LatteArtGame : ApplicationAdapter() {
                 val ox = x + .5f - gx
                 val oy = y + .5f - gy
                 val distanceSquared = ox * ox + oy * oy
-                val weight = exp(-distanceSquared / (radius * radius))
+                val alongFlow = ox * directionX + oy * directionY
+                val acrossFlow = -ox * directionY + oy * directionX
+                val centreWeight = exp(-distanceSquared / (radius * radius))
+                val jetWeight = if (alongFlow > 0f) {
+                    exp(-(acrossFlow * acrossFlow) / (radius * radius * .48f) -
+                        (alongFlow * alongFlow) / (radius * radius * 5.5f)) * .72f
+                } else 0f
+                val weight = maxOf(centreWeight, jetWeight)
                 if (weight < .02f) continue
                 val index = index(x, y)
                 foam[index] = (foam[index] + weight * flowRate * dt * 2.15f).coerceAtMost(1f)
@@ -254,13 +261,13 @@ class LatteArtGame : ApplicationAdapter() {
 
         val directionX = cos(flowAngle)
         val directionY = sin(flowAngle)
-        val arrowStartX = cup.x - directionX * (ringRadius - 8f)
-        val arrowStartY = cup.y - directionY * (ringRadius - 8f)
-        val arrowEndX = cup.x - directionX * (cupRadius + 18f)
-        val arrowEndY = cup.y - directionY * (cupRadius + 18f)
+        val arrowStartX = cup.x + directionX * (cupRadius + 18f)
+        val arrowStartY = cup.y + directionY * (cupRadius + 18f)
+        val arrowEndX = cup.x + directionX * (ringRadius - 8f)
+        val arrowEndY = cup.y + directionY * (ringRadius - 8f)
         shapes.color = Color(.94f, .79f, .58f, 1f)
         shapes.rectLine(arrowStartX, arrowStartY, arrowEndX, arrowEndY, 7f)
-        shapes.circle(arrowStartX, arrowStartY, 8f, 20)
+        shapes.circle(arrowEndX, arrowEndY, 8f, 20)
         val arrowLeftX = arrowEndX - directionX * 16f - directionY * 10f
         val arrowLeftY = arrowEndY - directionY * 16f + directionX * 10f
         val arrowRightX = arrowEndX - directionX * 16f + directionY * 10f
@@ -297,7 +304,7 @@ class LatteArtGame : ApplicationAdapter() {
         font.draw(batch, "RESET CUP", 177f, 70f)
         font.color = Color(.43f, .43f, .48f, 1f)
         font.data.setScale(.64f)
-        font.draw(batch, "BUILD 0.2.1 • GPT-5 CODEX", 28f, 18f)
+        font.draw(batch, "BUILD 0.2.2 • GPT-5 CODEX", 28f, 18f)
         batch.end()
     }
 

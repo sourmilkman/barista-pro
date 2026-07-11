@@ -2,7 +2,7 @@
 
 Portrait Android/LibGDX prototype for testing a simplified latte-art pour.
 
-## Controls (build 0.2.1)
+## Controls (build 0.2.2)
 
 - Drag around the outer ring to choose the milk-flow direction.
 - Touch inside the cup to position the spout and pour; hold longer for more foam.
@@ -16,4 +16,4 @@ Open the project in Android Studio, allow Gradle sync to finish, then run the `a
 
 ## APK
 
-The current test build is available at [`releases/barista-pro-0.2.1-debug.apk`](releases/barista-pro-0.2.1-debug.apk).
+The current test build is available at [`releases/barista-pro-0.2.2-debug.apk`](releases/barista-pro-0.2.2-debug.apk).
